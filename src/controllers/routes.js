@@ -1,3 +1,4 @@
+import contactRoutes from './forms/contact.js';
 import { Router } from 'express';
 import { addDemoHeaders } from '../middleware/demo/headers.js';
 import { catalogPage, courseDetailPage } from './catalog/catalog.js';
@@ -23,6 +24,12 @@ router.use('/faculty', (req, res, next) => {
 router.get('/', homePage);
 router.get('/about', aboutPage);
 
+// Add contact-specific styles to all contact routes
+router.use('/contact', (req, res, next) => {
+    res.addStyle('<link rel="stylesheet" href="/css/contact.css">');
+    next();
+});
+
 // Course catalog routes
 router.get('/catalog', catalogPage);
 router.get('/catalog/:slugId', courseDetailPage);
@@ -36,5 +43,8 @@ router.get('/test-error', testErrorPage);
 // Faculty directory routes
 router.get('/faculty', facultyListPage);
 router.get('/faculty/:facultySlug', facultyDetailPage);
+
+// Contact form routes
+router.use('/contact', contactRoutes);
 
 export default router;
