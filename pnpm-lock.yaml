@@ -26,6 +26,9 @@ importers:
       express-validator:
         specifier: ^7.3.2
         version: 7.3.2
+      pg:
+        specifier: ^8.21.0
+        version: 8.21.0
       ws:
         specifier: ^8.20.1
         version: 8.20.1
