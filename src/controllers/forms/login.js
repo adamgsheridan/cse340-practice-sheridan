@@ -56,10 +56,16 @@ const processLogin = async (req, res) => {
             return res.redirect('/login');
         }
 
+        const passwordValid = await verifyPassword(password, user.password);
+        if (!passwordValid) {
+            req.flash('error', 'Invalid email or password');
+            return res.redirect('/login');
+        }
+
         delete user.password;
 
         req.session.user = user;
-        req.flash('success', 'Welcome back, ${user.name}!');
+        req.flash('success', `Welcome back, ${user.name}!`);
         res.redirect('/dashboard');
 
     } catch (error) {
@@ -67,7 +73,7 @@ const processLogin = async (req, res) => {
         // TODO: Log error to console
         // TODO: Redirect to /login
         console.error('Error processing login:', error);
-        res.flash('error', 'Unable to process login. Please try again later.');
+        req.flash('error', 'Unable to process login. Please try again later.');
         res.redirect('/login');
     }
 };
