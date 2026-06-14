@@ -51,11 +51,10 @@ const processRegistration = async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        // TODO: Log validation errors to console for debugging
-        console.error('Validation errors:', errors.array());
-        // TODO: Redirect back to /register
-        res.redirect('/register');
-        return;
+        errors.array().forEach(error => {
+            req.flash('error', error.msg);
+        });
+        return res.redirect('/register');
     }
 
     // Extract validated data from request body
@@ -68,11 +67,8 @@ const processRegistration = async (req, res) => {
         const emailAlreadyExists = await emailExists(email);
 
         if (emailAlreadyExists) {
-            // TODO: Log message: 'Email already registered'
-            console.error('Email already registered');
-            // TODO: Redirect back to /register
-            res.redirect('/register');
-            return;
+            req.flash('warning', 'An account with this email address already exists. Please log in or use a different email.');
+            return res.redirect('/register');
         }
 
         // Hash the password before saving to database
@@ -83,17 +79,18 @@ const processRegistration = async (req, res) => {
         // Save user to database with hashed password
         // TODO: Call saveUser(name, email, hashedPassword)
         await saveUser(name, email, hashedPassword);
-        console.log('User registered successfully');
 
         // TODO: Log success message to console
         // TODO: Redirect to /register/list to show successful registration
         // NOTE: Later when we add authentication, we'll change this to require login first
-        res.redirect('/register/list');
+        req.flash('success', 'Registration successful! Please log in to continue.');
+        res.redirect('/login');
         
     } catch (error) {
         // TODO: Log the error to console
         console.error('Error occurred while registering user:', error);
         // TODO: Redirect back to /register
+        req.flash('error', 'Unable to complete registration. Please try again later.');
         res.redirect('/register');
     }
 };
