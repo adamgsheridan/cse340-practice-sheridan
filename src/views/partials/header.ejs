@@ -9,24 +9,7 @@
     <%- renderScripts() %>
 </head>
 <body>
-    </header>
-
-    <% 
-        const messages = flash();
-        const hasMessages = Object.values(messages).some(arr => arr.length > 0);
-    %>
-
-    <% if (hasMessages) { %>
-        <div class="flash-messages">
-            <% Object.keys(messages).forEach(type => { %>
-                <% messages[type].forEach(message => { %>
-                    <div class="flash <%= type %>">
-                        <%= message %>
-                    </div>
-                <% }); %>
-            <% }); %>
-        </div>
-    <% } %>
+    <header>
         <nav>
             <ul>
                 <!-- Always visible links -->
@@ -53,5 +36,20 @@
             </ul>
         </nav>
         <%- greeting %>
-        <body class="<%= bodyClass %>">
     </header>
+    <% 
+        const messages = flash();
+        const hasMessages = Object.values(messages).some(arr => arr.length > 0);
+    %>
+
+    <% if (hasMessages) { %>
+        <div class="flash-messages">
+            <% Object.keys(messages).forEach(type => { %>
+                <% messages[type].forEach(message => { %>
+                    <div class="flash <%= type %>">
+                        <%= message %>
+                    </div>
+                <% }); %>
+            <% }); %>
+        </div>
+    <% } %>
