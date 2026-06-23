@@ -43,6 +43,7 @@
         padding: 1.5rem;
         background: #fff;
         transition: box-shadow 0.2s ease;
+        text-align: center;
 
         &:hover {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
