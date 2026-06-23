@@ -8,6 +8,7 @@ import loginRoutes from './forms/login.js';
 import { processLogout, showDashboard } from './forms/login.js';
 import { requireLogin } from '../middleware/auth.js';
 import { Router } from 'express';
+import { registrationValidation, editValidation, loginValidation } from '../middleware/validation/form.js';
 
 // Create a new router instance
 const router = Router();
