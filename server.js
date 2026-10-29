@@ -21,12 +21,15 @@ import flash from './src/middleware/flash.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 10000;
 
 /**
  * Setup Express Server
  */
 const app = express();
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
 app.set('trust proxy', 1);
 
 // Initialize PostgreSQL session store
