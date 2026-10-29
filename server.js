@@ -21,15 +21,12 @@ import flash from './src/middleware/flash.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
-const PORT = Number(process.env.PORT) || 10000;
+const PORT = process.env.PORT || 3000;
 
 /**
  * Setup Express Server
  */
 const app = express();
-app.get('/health', (req, res) => {
-    res.status(200).send('OK');
-});
 app.set('trust proxy', 1);
 
 // Initialize PostgreSQL session store
@@ -153,10 +150,8 @@ if (NODE_ENV.includes('dev')) {
 /**
  * Start Server
  */
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Express is listening on 0.0.0.0:${PORT}`);
-});
-
-app.on('error', (error) => {
-    console.error('Express server error:', error);
+app.listen(PORT, async () => {
+    await setupDatabase();
+    await testConnection();
+    console.log(`Server is running on http://127.0.0.1:${PORT}`);
 });
